@@ -63,11 +63,12 @@ export default {
                 if (this.tagsList.length >= 8) {
                     this.tagsList.shift();
                 }
-                this.tagsList.push({
-                    title: route.meta.title,
-                    path: route.fullPath,
-                    name: route.matched[1].components.default.name
-                });
+                if (!route.meta.permission && route.matched[0])
+                    this.tagsList.push({
+                        title: route.meta.title,
+                        path: route.fullPath,
+                        name: route.matched[0].components.default.name
+                    });
             }
             bus.$emit('tags', this.tagsList);
         },
@@ -81,7 +82,7 @@ export default {
         }
     },
     watch: {
-        $route(newValue, oldValue) {
+        $route(newValue) {
             this.setTags(newValue);
         }
     },
