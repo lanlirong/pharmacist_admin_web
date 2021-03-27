@@ -1,18 +1,21 @@
 <template>
     <div id="app">
-        <v-head></v-head>
-        <v-sidebar></v-sidebar>
-        <div class="content-box" :class="{ 'content-collapse': collapse }">
-            <v-tags></v-tags>
-            <div class="content">
-                <transition name="move" mode="out-in">
-                    <keep-alive :include="tagsList">
-                        <router-view></router-view>
-                    </keep-alive>
-                </transition>
-                <el-backtop target=".content"></el-backtop>
+        <div class="home" v-if="$route.fullPath !== '/login'">
+            <v-head></v-head>
+            <v-sidebar></v-sidebar>
+            <div class="content-box" :class="{ 'content-collapse': collapse }">
+                <v-tags></v-tags>
+                <div class="content">
+                    <transition name="move" mode="out-in">
+                        <keep-alive :include="tagsList">
+                            <router-view></router-view>
+                        </keep-alive>
+                    </transition>
+                    <el-backtop target=".content"></el-backtop>
+                </div>
             </div>
         </div>
+        <router-view v-else></router-view>
     </div>
 </template>
 <script>

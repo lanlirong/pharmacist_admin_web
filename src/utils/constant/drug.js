@@ -1,23 +1,23 @@
-export const DRUG_TYPE_ARR = [
+export const SELECT_TYPE = [
     {
-        value: 0,
-        label: '药品名'
+        value: 'drug_name',
+        label: '药品名称'
     },
     {
-        value: 1,
+        value: 'id',
+        label: '药品ID'
+    },
+    {
+        value: 'bar_code',
+        label: '药品条码'
+    },
+    {
+        value: 'drug_brand',
         label: '商品名'
     },
     {
-        value: 2,
-        label: '商品条形码'
-    },
-    {
-        value: 3,
-        label: '主要成分'
-    },
-    {
-        value: 4,
-        label: '主治疾病'
+        value: 'approval_number',
+        label: '批准文号'
     }
 ];
 export const DRUG_NATURE_CLASS = [

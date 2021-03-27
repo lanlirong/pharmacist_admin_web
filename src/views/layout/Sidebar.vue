@@ -42,39 +42,15 @@
 
 <script>
 import bus from '@/utils/bus';
+import menu from './menu';
 export default {
     data() {
         return {
             collapse: false,
-            items: [
-                {
-                    icon: 'el-icon-lx-home',
-                    index: '/dashboard',
-                    title: '系统首页'
-                },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: 'drug',
-                    title: '药品管理',
-                    subs: [
-                        {
-                            index: '/drug/list',
-                            title: '药品列表'
-                        },
-                        {
-                            index: '/drug/add',
-                            title: '新增药品'
-                        }
-                    ]
-                }
-            ]
+            items: menu || []
         };
     },
-    computed: {
-        // onRoutes() {
-        //     return this.$route.path.replace('/', '');
-        // }
-    },
+    computed: {},
     created() {
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
         bus.$on('collapse', msg => {
@@ -103,7 +79,7 @@ export default {
     width: 0;
 }
 .sidebar-el-menu:not(.el-menu--collapse) {
-    width: 250px;
+    width: 200px;
 }
 .sidebar > ul {
     height: 100%;
