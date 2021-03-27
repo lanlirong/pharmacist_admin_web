@@ -23,31 +23,31 @@ export const SELECT_TYPE = [
 export const DRUG_NATURE_CLASS = [
     {
         value: '保健食品',
-        color: 'orange'
+        color: ''
     },
     {
         value: '化妆品',
-        color: 'red'
+        color: 'danger'
     },
     {
         value: '情趣用品',
-        color: 'pink'
+        color: 'danger'
     },
     {
         value: '西药',
-        color: 'purple'
+        color: 'danger'
     },
     {
         value: '消杀用品',
-        color: 'blue'
+        color: 'info'
     },
     {
         value: '医疗器械',
-        color: 'cyan'
+        color: 'warning'
     },
     {
         value: '中成药',
-        color: 'green'
+        color: 'success'
     }
 ];
 export const DRUG_DOWNLOAD_HEADER = [

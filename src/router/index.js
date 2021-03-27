@@ -31,8 +31,18 @@ export default new Router({
                 },
                 {
                     path: 'add',
-                    // component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/index.vue'),
+                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/add.vue'),
                     meta: { title: '新增药品' }
+                },
+                {
+                    path: 'update',
+                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/update.vue'),
+                    meta: { title: '修改药品' }
+                },
+                {
+                    path: 'detail',
+                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/detail.vue'),
+                    meta: { title: '药品详情' }
                 }
             ]
         },
