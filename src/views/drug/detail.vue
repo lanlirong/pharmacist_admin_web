@@ -135,6 +135,7 @@
 <script>
 import { _getDetail } from '@/services/api/drug';
 export default {
+    name: 'drugDetail',
     data() {
         return {
             detail: {},

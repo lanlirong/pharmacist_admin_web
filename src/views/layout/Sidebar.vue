@@ -44,6 +44,7 @@
 import bus from '@/utils/bus';
 import menu from './menu';
 export default {
+    name: 'sidebar',
     data() {
         return {
             collapse: false,

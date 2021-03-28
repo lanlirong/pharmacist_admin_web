@@ -18,33 +18,27 @@ export default new Router({
             component: () => import(/* webpackChunkName: "home" */ '@/views/dashboard/index.vue'),
             meta: { title: '系统首页' }
         },
+        // drug
         {
-            path: '/drug',
-            component: { render: h => h('router-view', '') },
-            meta: { title: '药品管理' },
-            redirect: '/drug/list',
-            children: [
-                {
-                    path: 'list',
-                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/index.vue'),
-                    meta: { title: '药品列表' }
-                },
-                {
-                    path: 'add',
-                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/add.vue'),
-                    meta: { title: '新增药品' }
-                },
-                {
-                    path: 'update',
-                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/update.vue'),
-                    meta: { title: '修改药品' }
-                },
-                {
-                    path: 'detail',
-                    component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/detail.vue'),
-                    meta: { title: '药品详情' }
-                }
-            ]
+            path: '/drug/list',
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/list.vue'),
+            meta: { title: '药品列表' }
+        },
+        {
+            path: '/drug/add',
+
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/add.vue'),
+            meta: { title: '新增药品' }
+        },
+        {
+            path: '/drug/update',
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/update.vue'),
+            meta: { title: '修改药品' }
+        },
+        {
+            path: '/drug/detail',
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/detail.vue'),
+            meta: { title: '药品详情' }
         },
         {
             // 权限页面

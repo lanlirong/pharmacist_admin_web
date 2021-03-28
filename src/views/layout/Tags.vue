@@ -23,6 +23,7 @@
 <script>
 import bus from '@/utils/bus';
 export default {
+    name: 'tags',
     data() {
         return {
             tagsList: []
@@ -41,11 +42,13 @@ export default {
             } else {
                 this.$router.push('/');
             }
+            bus.$emit('tags', this.tagsList);
         },
         // 关闭全部标签
         closeAll() {
             this.tagsList = [];
             this.$router.push('/');
+            bus.$emit('tags', this.tagsList);
         },
         // 关闭其他标签
         closeOther() {
@@ -53,6 +56,7 @@ export default {
                 return item.path === this.$route.fullPath;
             });
             this.tagsList = curItem;
+            bus.$emit('tags', this.tagsList);
         },
         // 设置标签
         setTags(route) {
@@ -63,14 +67,14 @@ export default {
                 if (this.tagsList.length >= 8) {
                     this.tagsList.shift();
                 }
-                if (!route.meta.permission && route.matched[0])
+                if (!route.meta.permission && route.matched.length == 1 && route.matched[0])
                     this.tagsList.push({
                         title: route.meta.title,
                         path: route.fullPath,
                         name: route.matched[0].components.default.name
                     });
+                bus.$emit('tags', this.tagsList);
             }
-            bus.$emit('tags', this.tagsList);
         },
         handleTags(command) {
             command === 'other' ? this.closeOther() : this.closeAll();

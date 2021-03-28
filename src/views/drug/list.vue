@@ -77,6 +77,7 @@
 import { SELECT_TYPE, DRUG_NATURE_CLASS } from '@/utils/constant/drug';
 import { _getList } from '@/services/api/drug';
 export default {
+    name: 'drugList',
     data() {
         return {
             searchParams: {
@@ -93,7 +94,7 @@ export default {
                 searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
             },
             currentPage: 1,
-            total: 100,
+            total: 0,
             loading: false
         };
     },
@@ -110,8 +111,9 @@ export default {
             };
         }
     },
-    mounted() {
-        this.getList();
+    created() {
+        // this.getList();
+        console.log('list create');
     },
     methods: {
         submitForm(formName) {
