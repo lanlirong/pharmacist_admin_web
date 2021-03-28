@@ -12,6 +12,13 @@ instance.interceptors.request.use(config => {
     return config;
 });
 
+/* 
+1 成功
+2 404页面
+3 错误页面
+4 游客身份，login页面
+5 无权限提示
+*/
 // 响应拦截
 instance.interceptors.response.use(
     response => {
@@ -20,16 +27,26 @@ instance.interceptors.response.use(
             Message.error('status:' + status);
             return Promise.reject(data);
         } else {
-            if (data.code === 2) {
+            if (data.code === 1) {
+                return data;
+            } else if (data.code === 2) {
                 // 404
                 VueThis.$router.push('/404');
                 return;
             } else if (data.code === 3) {
-                // 错误
+                // error
                 VueThis.$router.push('/error');
+                return;
+            } else if (data.code === 4) {
+                // 游客
+                VueThis.$router.push('/login');
                 Message.error(data.msg);
+                return;
+            } else if (data.code === 5) {
+                // 无权限
+                Message.error(data.msg);
+                return;
             }
-            return data;
         }
     },
     error => {

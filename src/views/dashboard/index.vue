@@ -217,7 +217,6 @@ export default {
     created() {
         // this.handleListener();
         // this.changeDate();
-        console.log('dashboard create');
     },
     // activated() {
     //     this.handleListener();

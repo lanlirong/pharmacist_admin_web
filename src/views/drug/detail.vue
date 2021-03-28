@@ -101,7 +101,7 @@
             </li>
             <li>
                 <span class="label">贮藏:</span>
-                <span class="value">{{ detail.interreaction | depot }}</span>
+                <span class="value">{{ detail.depot | placeholder }}</span>
             </li>
         </ul>
         <h2>生产信息</h2>

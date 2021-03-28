@@ -41,19 +41,13 @@ export default new Router({
             meta: { title: '药品详情' }
         },
         {
-            // 权限页面
-            path: '/permission',
-            component: () => import(/* webpackChunkName: "permission" */ '@/views/common/Permission.vue'),
-            meta: { title: '权限测试', permission: true }
-        },
-        {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue'),
             meta: { title: '404', permission: true }
         },
         {
-            path: '/403',
-            component: () => import(/* webpackChunkName: "403" */ '@/views/common/403.vue'),
+            path: '/error',
+            component: () => import(/* webpackChunkName: "403" */ '@/views/common/error.vue'),
             meta: { title: '403', permission: true }
         },
         {

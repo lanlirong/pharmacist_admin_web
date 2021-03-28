@@ -46,6 +46,7 @@
 </template>
 <script>
 import bus from '@/utils/bus';
+import { _logout } from '@/services/api/admin-user';
 export default {
     data() {
         return {
@@ -63,10 +64,16 @@ export default {
     },
     methods: {
         // 用户名下拉菜单选择事件
-        handleCommand(command) {
+        async handleCommand(command) {
             if (command == 'loginout') {
-                localStorage.removeItem('ms_username');
-                this.$router.push('/login');
+                // localStorage.removeItem('ms_username');
+                try {
+                    const res = await _logout();
+                    console.log(res);
+                    this.$router.push('/login');
+                } catch (error) {
+                    console.log(error);
+                }
             }
         },
         // 侧边栏折叠

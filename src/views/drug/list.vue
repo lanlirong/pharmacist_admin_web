@@ -111,10 +111,7 @@ export default {
             };
         }
     },
-    created() {
-        // this.getList();
-        console.log('list create');
-    },
+    created() {},
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate(valid => {

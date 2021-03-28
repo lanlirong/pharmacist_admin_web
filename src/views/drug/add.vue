@@ -7,9 +7,7 @@ export default {
     data() {
         return {};
     },
-    created() {
-        console.log('drugAdd create');
-    },
+    created() {},
     methods: {}
 };
 </script>
