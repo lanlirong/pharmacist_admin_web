@@ -33,28 +33,17 @@ module.exports = {
         host: 'localhost',
         port: 7000,
         https: false,
-        hotOnly: false,
-        proxy: {
-            '/api': {
-                // target: 'http://49.235.220.14:7689/',
-                target: 'http://localhost:80/',
-                ws: true,
-                changOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
+        hotOnly: false
+        // proxy: {
+        //     '/api': {
+        //         // target: 'http://49.235.220.14:7689/',
+        //         target: 'http://localhost:80/',
+        //         ws: true,
+        //         changOrigin: true,
+        //         pathRewrite: {
+        //             '^/api': ''
+        //         }
+        //     }
+        // }
     }
-    // devServer: {
-    //     proxy: {
-    //         '/api':{
-    //             target:'http://jsonplaceholder.typicode.com',
-    //             changeOrigin:true,
-    //             pathRewrite:{
-    //                 '/api':''
-    //             }
-    //         }
-    //     }
-    // }
 };

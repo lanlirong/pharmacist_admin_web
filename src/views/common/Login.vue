@@ -43,8 +43,8 @@ export default {
                 if (valid) {
                     try {
                         const { data } = await _login({ ...this.param });
+                        localStorage.setItem('userInfo', JSON.stringify(data));
                         this.$message.success('登录成功');
-                        console.log(data);
                         this.$router.push('/');
                     } catch (error) {
                         console.log(error);

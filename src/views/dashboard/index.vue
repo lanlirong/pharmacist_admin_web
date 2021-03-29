@@ -4,10 +4,10 @@
             <el-col :span="8">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
                     <div class="user-info">
-                        <img src="../../assets/img/img.jpg" class="user-avator" alt />
+                        <img :src="userInfo.avator" class="user-avator" alt />
                         <div class="user-info-cont">
-                            <div class="user-info-name">{{ name }}</div>
-                            <div>{{ role }}</div>
+                            <div class="user-info-name">{{ userInfo.name }}</div>
+                            <div>{{ userInfo.role }}</div>
                         </div>
                     </div>
                     <div class="user-info-list">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
-                        <span>东莞</span>
+                        <span>南京</span>
                     </div>
                 </el-card>
                 <el-card shadow="hover" style="height:252px;">
@@ -106,6 +106,7 @@ export default {
     name: 'dashboard',
     data() {
         return {
+            userInfo: {},
             name: localStorage.getItem('ms_username'),
             todoList: [
                 {
@@ -215,6 +216,7 @@ export default {
         }
     },
     created() {
+        this.getUserInfo();
         // this.handleListener();
         // this.changeDate();
     },
@@ -226,6 +228,9 @@ export default {
     //     bus.$off('collapse', this.handleBus);
     // },
     methods: {
+        getUserInfo() {
+            if (localStorage.getItem('userInfo')) this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        },
         changeDate() {
             const now = new Date().getTime();
             this.data.forEach((item, index) => {

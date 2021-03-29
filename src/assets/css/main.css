@@ -181,3 +181,8 @@ li {
 .el-tooltip__popper {
     max-width: 300px;
 }
+
+/* upload */
+.el-upload--text {
+    width: 100%;
+}

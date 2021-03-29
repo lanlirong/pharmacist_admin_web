@@ -25,56 +25,86 @@
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../../assets/img/img.jpg" />
+                    <img :src="userInfo.avator" />
                 </div>
                 <!-- 用户名下拉菜单 -->
-                <el-dropdown class="user-name" trigger="click" @command="handleCommand">
+                <el-dropdown class="user-name" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{ username }}
+                        {{ userInfo.name }}
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <!-- <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a> -->
+                        <el-dropdown-item command="showInfo">个人信息</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
         </div>
+        <!-- 用户信息弹框 -->
+        <el-dialog :title="dialog.title" :visible.sync="dialog.visible" width="40%">
+            <myInfo v-if="dialog.type === 'myInfo'" />
+            <!-- <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span> -->
+        </el-dialog>
     </div>
 </template>
 <script>
 import bus from '@/utils/bus';
 import { _logout } from '@/services/api/admin-user';
+import myInfo from './components/my-info';
 export default {
+    components: {
+        myInfo
+    },
     data() {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'linxin',
-            message: 2
+            userInfo: {
+                name: ''
+            },
+            message: 2,
+            dialog: {
+                visible: false,
+                title: '',
+                type: ''
+            }
         };
     },
-    computed: {
-        username() {
-            let username = localStorage.getItem('ms_username');
-            return username ? username : this.name;
-        }
+    created() {
+        this.getUserInfo();
     },
     methods: {
+        getUserInfo() {
+            if (localStorage.getItem('userInfo')) this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        },
         // 用户名下拉菜单选择事件
         async handleCommand(command) {
-            if (command == 'loginout') {
-                // localStorage.removeItem('ms_username');
-                try {
-                    const res = await _logout();
-                    console.log(res);
-                    this.$router.push('/login');
-                } catch (error) {
-                    console.log(error);
-                }
+            switch (command) {
+                case 'loginout':
+                    this.loginout();
+                    break;
+                case 'showInfo':
+                    this.showUserInfo();
+                    break;
+                default:
+                    break;
             }
+        },
+        async loginout() {
+            localStorage.removeItem('userInfo');
+            try {
+                const res = await _logout();
+                if (res.code == 1) this.$router.push('/login');
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        showUserInfo() {
+            this.dialog.visible = true;
+            this.dialog.title = '个人信息';
+            this.dialog.type = 'myInfo';
         },
         // 侧边栏折叠
         collapseChage() {

@@ -12,11 +12,12 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "element-ui": "^2.11.0",
+    "moment": "^2.29.1",
     "vue": "^2.6.10",
     "vue-cropperjs": "^3.0.0",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.3",
-    "moment": "^2.29.1"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

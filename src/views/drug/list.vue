@@ -2,6 +2,7 @@
     <card class="drug">
         <!-- 搜索区域 -->
         <div class="search-container">
+            <el-button @click="$router.push('/drug/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item>
                     <el-select v-model="searchParams.type" placeholder="请选择">
@@ -50,13 +51,13 @@
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/drug/detail?id=${row.id}`" target="_blank"
-                            ><el-button type="text" size="mini">查看</el-button></router-link
+                        <router-link :to="`/drug/detail?id=${row.id}`" target="_blank">
+                            <el-button type="text" size="mini">查看</el-button></router-link
                         >
                         <router-link :to="`/drug/update?id=${row.id}`" target="_blank">
                             <el-button type="text" size="mini">修改</el-button></router-link
                         >
-                        <el-button type="text" size="mini">删除</el-button>
+                        <el-button type="text" size="mini" @click="deleteDrug">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -139,7 +140,8 @@ export default {
             this.searchParams.orderType = val.prop;
             this.searchParams.order = val.order === 'ascending' ? 'asc' : 'desc';
             this.getList();
-        }
+        },
+        deleteDrug() {}
     }
 };
 </script>

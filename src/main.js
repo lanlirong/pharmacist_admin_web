@@ -3,12 +3,11 @@ import App from './App.vue';
 import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
-// import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
 import './utils/directives'; // vue 指令
 import 'babel-polyfill';
-
 import './utils/filters'; // 全局过滤器
+import store from './store';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {
@@ -44,5 +43,6 @@ requireComponent.keys().forEach(fileName => {
 
 export default new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app');

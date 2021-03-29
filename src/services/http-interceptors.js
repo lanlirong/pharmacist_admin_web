@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Message } from 'element-ui';
 import VueThis from '@/main.js';
 const instance = axios.create({
-    // baseURL: 'http://49.235.220.14:7689/',
+    baseURL: 'http://localhost:80/',
     timeout: 20000, // 请求超时时间，3000ms未响应则停止请求
     withCredentials: true, // 允许携带cookie
     headers: { 'Content-Type': 'application/json' }
