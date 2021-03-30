@@ -9,3 +9,6 @@ export const _getDetail = (params = {}) => {
 export const _getDrugCount = () => {
     return axios.get('/admin/drug/count');
 };
+export const _addDrug = (params = {}) => {
+    return axios.post('/admin/drug/add', { ...params });
+};

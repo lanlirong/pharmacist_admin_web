@@ -43,7 +43,7 @@ instance.interceptors.response.use(
                 Message.error(data.msg);
                 return;
             } else if (data.code === 5) {
-                // 无权限
+                // 无权限  或者其他不跳转 错误
                 Message.error(data.msg);
                 return;
             }

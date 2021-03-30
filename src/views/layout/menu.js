@@ -16,11 +16,15 @@ const menu = [
             {
                 index: '/drug/add',
                 title: '新增药品'
+            },
+            {
+                index: '/drug/check',
+                title: '药品审核'
+            },
+            {
+                index: '/drug/my',
+                title: '我的提交'
             }
-            // {
-            //     index: '/drug/',
-            //     title: '新增药品'
-            // }
         ]
     }
 ];

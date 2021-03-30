@@ -79,10 +79,13 @@
                 <div class="picture">
                     <el-upload
                         class="avatar-uploader"
+                        ref="upload"
                         :action="uploadUrl"
                         :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
+                        :on-change="handleChange"
                         :before-upload="beforeAvatarUpload"
+                        :auto-upload="false"
+                        with-credentials
                     >
                         <img v-if="formData.picture" :src="formData.picture" class="avatar" />
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -247,15 +250,16 @@
             </ul>
             <el-form-item>
                 <div class="button-container">
-                    <el-button>放弃提交</el-button> <el-button>暂存</el-button
-                    ><el-button type="primary" @click="submitForm('form')">提交</el-button>
+                    <el-button>放弃提交</el-button>
+                    <!-- <el-button>暂存</el-button> -->
+                    <el-button type="primary" @click="submitForm('form')">提交</el-button>
                 </div>
             </el-form-item>
         </el-form>
     </card>
 </template>
 <script>
-import { _getDetail } from '@/services/api/drug';
+import { _addDrug } from '@/services/api/drug';
 import { DRUG_NATURE_CLASS } from '@/utils/constant/drug';
 export default {
     name: 'drugAdd',
@@ -310,23 +314,27 @@ export default {
         // this.getDetail();
     },
     methods: {
-        handleAvatarSuccess(res, file) {
-            console.log(res, file);
+        async handleChange(file) {
+            console.log(file);
             this.formData.picture = URL.createObjectURL(file.raw);
-            // this.formData.picture = res.data;
-            console.log(this.formData.picture);
+            if (file.status == 'success' && file.response.data) {
+                this.$message.success('图片上传成功');
+                this.submitData();
+            } else if (file.status == 'success' && !file.response.data) {
+                this.$message.error('图片上传失败');
+            }
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isLt10M = file.size / 1024 / 1024 < 10;
 
             if (!isJPG) {
                 this.$message.error('上传头像图片只能是 JPG、PNG 格式!');
             }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
+            if (!isLt10M) {
+                this.$message.error('上传头像图片大小不能超过 10MB!');
             }
-            return isJPG && isLt2M;
+            return isJPG && isLt10M;
         },
         addDisease() {
             if (this.mainDisease !== '') {
@@ -338,26 +346,29 @@ export default {
             this.mainDiseases.splice(this.mainDiseases.indexOf(tag), 1);
         },
         submitForm(formName) {
-            this.$refs[formName].validate(valid => {
+            this.$refs[formName].validate(async valid => {
                 if (valid) {
-                    this.formData.mainDiseases = this.mainDiseases.join(',');
-                    console.log(this.formData);
+                    this.formData.mainDiseases = this.mainDiseases;
+                    this.$refs.upload.submit();
+                    // 没有上传图片时 直接提交文字数据
+                    if (this.formData.picture == '') {
+                        this.submitData();
+                    }
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });
         },
-        async getDetail() {
-            if (this.$route.query.id) {
-                this.loading = true;
-                try {
-                    const { data } = await _getDetail({ id: this.$route.query.id });
-                    this.detail = data;
-                    this.loading = false;
-                } catch (error) {
-                    this.loading = false;
+        // 保存文字数据
+        async submitData() {
+            try {
+                const { code, msg } = await _addDrug({ ...this.formData });
+                if (code == 1) {
+                    this.$message.success(msg + '请等待审核通过');
+                    this.$router.push('/drug/my');
                 }
+            } catch (error) {
+                console.log(error);
             }
         }
     }
