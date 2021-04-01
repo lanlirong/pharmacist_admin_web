@@ -259,7 +259,7 @@
     </card>
 </template>
 <script>
-import { _addDrug } from '@/services/api/drug';
+import { _addRawDrug } from '@/services/api/drug';
 import { DRUG_NATURE_CLASS } from '@/utils/constant/drug';
 export default {
     name: 'drugAdd',
@@ -307,7 +307,8 @@ export default {
                     { required: true, message: '请输入生产厂家', trigger: 'blur' },
                     { min: 1, max: 200, message: '长度在 1 到 200 个字符', trigger: 'blur' }
                 ]
-            }
+            },
+            pictureChange: false
         };
     },
     mounted() {
@@ -316,9 +317,10 @@ export default {
     methods: {
         async handleChange(file) {
             console.log(file);
+            this.pictureChange = true;
             this.formData.picture = URL.createObjectURL(file.raw);
             if (file.status == 'success' && file.response.data) {
-                this.$message.success('图片上传成功');
+                // this.$message.success('图片上传成功');
                 this.submitData();
             } else if (file.status == 'success' && !file.response.data) {
                 this.$message.error('图片上传失败');
@@ -362,9 +364,14 @@ export default {
         // 保存文字数据
         async submitData() {
             try {
-                const { code, msg } = await _addDrug({ ...this.formData });
+                const { code, msg } = await _addRawDrug({ ...this.formData, pictureChange: this.pictureChange });
                 if (code == 1) {
-                    this.$message.success(msg + '请等待审核通过');
+                    // this.$message.success(msg + '，请等待审核通过');
+                    this.$notify({
+                        title: '成功',
+                        message: msg + '，请等待审核通过',
+                        type: 'success'
+                    });
                     this.$router.push('/drug/my');
                 }
             } catch (error) {

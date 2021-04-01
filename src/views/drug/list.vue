@@ -34,7 +34,9 @@
                 <el-table-column prop="drug_brand" label="商品名" show-overflow-tooltip width="100">
                     <template slot-scope="{ row }">{{ row.drug_brand | placeholder }}</template>
                 </el-table-column>
-                <el-table-column prop="approval_number" label="批准文号" width="140"> </el-table-column>
+                <el-table-column prop="approval_number" label="批准文号" width="140">
+                    <template slot-scope="{ row }">{{ row.approval_number | placeholder }}</template>
+                </el-table-column>
                 <el-table-column label="性质分类" width="100">
                     <template slot-scope="{ row }">
                         <el-tag :type="nature_tag_color(row.nature_class)">{{ row.nature_class }}</el-tag>
@@ -51,10 +53,10 @@
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/drug/detail?id=${row.id}`" target="_blank">
+                        <router-link :to="`/drug/detail?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">查看</el-button></router-link
                         >
-                        <router-link :to="`/drug/update?id=${row.id}`" target="_blank">
+                        <router-link :to="`/drug/update?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">修改</el-button></router-link
                         >
                         <el-button type="text" size="mini" @click="deleteDrug">删除</el-button>

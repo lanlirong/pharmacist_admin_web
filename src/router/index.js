@@ -46,9 +46,14 @@ export default new Router({
             meta: { title: '药品审核' }
         },
         {
+            path: '/drug/check-detail',
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/check-detail.vue'),
+            meta: { title: '药品审核详情' }
+        },
+        {
             path: '/drug/my',
             component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/my.vue'),
-            meta: { title: '我的审核' }
+            meta: { title: '我的提交' }
         },
         {
             path: '/404',

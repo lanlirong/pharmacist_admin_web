@@ -4,12 +4,17 @@
         <div class="search-container">
             <el-button @click="$router.push('/drug/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="审核状态:">
+                    <el-select v-model="searchParams.status" placeholder="请选择">
+                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item>
                     <el-select v-model="searchParams.type" placeholder="请选择">
                         <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="searchKey">
+                <el-form-item>
                     <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -34,14 +39,29 @@
                 <el-table-column prop="drug_brand" label="商品名" show-overflow-tooltip width="100">
                     <template slot-scope="{ row }">{{ row.drug_brand | placeholder }}</template>
                 </el-table-column>
-                <el-table-column prop="approval_number" label="批准文号" width="140"> </el-table-column>
+                <el-table-column prop="approval_number" label="批准文号" width="140">
+                    <template slot-scope="{ row }">{{ row.approval_number | placeholder }}</template>
+                </el-table-column>
                 <el-table-column label="性质分类" width="100">
                     <template slot-scope="{ row }">
                         <el-tag :type="nature_tag_color(row.nature_class)">{{ row.nature_class }}</el-tag>
                     </template>
                 </el-table-column>
+                <el-table-column label="是否新添加药品" width="120">
+                    <template slot-scope="{ row }">
+                        <span v-if="row.isNew == 1" style="color: red;">是</span>
+                        <span v-if="row.isNew == 0">否</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" sortable="custom" width="150"> </el-table-column>
                 <el-table-column prop="operator" label="更新人" show-overflow-tooltip width="100"> </el-table-column>
+                <el-table-column label="审核状态" width="120">
+                    <template slot-scope="{ row }">
+                        <el-tag v-if="row.status == 0" type="warning">未审核</el-tag>
+                        <el-tag v-if="row.status == 1" type="success">审核通过</el-tag>
+                        <el-tag v-if="row.status == 2" type="danger">审核未通过</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="indication" label="适应症" show-overflow-tooltip width="250">
                     <template slot-scope="{ row }">{{ row.indication | placeholder }}</template>
                 </el-table-column>
@@ -51,13 +71,13 @@
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/drug/detail?id=${row.id}`" target="_blank">
+                        <router-link :to="`/drug/detail?id=${row.id}&raw=1`" target="_blank">
                             <el-button type="text" size="mini">查看</el-button></router-link
                         >
-                        <router-link :to="`/drug/update?id=${row.id}`" target="_blank">
+                        <router-link :to="`/drug/update?id=${row.id}&raw=1`" target="_blank">
                             <el-button type="text" size="mini">修改</el-button></router-link
                         >
-                        <el-button type="text" size="mini" @click="deleteDrug">撤回</el-button>
+                        <el-button type="text" size="mini" @click="deleteRawDrug(row.id)">撤回</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -75,24 +95,26 @@
 </template>
 
 <script>
-import { SELECT_TYPE, DRUG_NATURE_CLASS } from '@/utils/constant/drug';
-import { _getList } from '@/services/api/drug';
+import { SELECT_TYPE, DRUG_NATURE_CLASS, STATUS } from '@/utils/constant/drug';
+import { _getMyRawList, _deleteRawDrug } from '@/services/api/drug';
 export default {
-    name: 'drugList',
+    name: 'drugMy',
     data() {
         return {
             searchParams: {
                 type: 'drug_name',
-                searchKey: 'test',
+                searchKey: '',
                 orderType: '',
                 order: 'asc',
                 page: 1,
-                size: 20
+                size: 20,
+                status: ''
             },
             typeOptions: SELECT_TYPE,
+            statusOptions: STATUS,
             tableData: [],
             rules: {
-                searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
+                // searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
             },
             currentPage: 1,
             total: 0,
@@ -112,7 +134,9 @@ export default {
             };
         }
     },
-    created() {},
+    created() {
+        this.getList();
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
@@ -128,7 +152,7 @@ export default {
             this.searchParams.size = 20;
             this.loading = true;
             try {
-                const { data } = await _getList({ ...this.searchParams });
+                const { data } = await _getMyRawList({ ...this.searchParams });
                 this.tableData = data.data;
                 this.total = data.total;
                 this.loading = false;
@@ -141,7 +165,30 @@ export default {
             this.searchParams.order = val.order === 'ascending' ? 'asc' : 'desc';
             this.getList();
         },
-        deleteDrug() {}
+        deleteRawDrug(id) {
+            this.$confirm('确认撤回该记录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(async () => {
+                    try {
+                        const { code } = await _deleteRawDrug({ id });
+                        if (code == 1) {
+                            this.$message.success('已撤回');
+                            this.getList();
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消撤回'
+                    });
+                });
+        }
     }
 };
 </script>

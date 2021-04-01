@@ -59,7 +59,7 @@ export default {
     },
     data() {
         return {
-            collapse: false,
+            collapse: true,
             fullscreen: false,
             userInfo: {
                 name: ''

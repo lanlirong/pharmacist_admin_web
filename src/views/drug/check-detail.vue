@@ -130,12 +130,17 @@
                 <span class="value">{{ detail.operator | placeholder }}</span>
             </li>
         </ul>
+        <!-- 审核按钮 -->
+        <div class="check-btns">
+            <el-button type="danger" @click="check(false)">不通过</el-button>
+            <el-button type="success" @click="check(true)">通过</el-button>
+        </div>
     </card>
 </template>
 <script>
-import { _getDetail, _getRawDetail } from '@/services/api/drug';
+import { _getRawDetail, _check } from '@/services/api/drug';
 export default {
-    name: 'drugDetail',
+    name: 'drugCheckDetail',
     data() {
         return {
             detail: {},
@@ -153,17 +158,27 @@ export default {
             if (this.$route.query.id) {
                 this.loading = true;
                 try {
-                    if (this.$route.query.raw == '1') {
-                        const { data } = await _getRawDetail({ id: this.$route.query.id });
-                        this.detail = data;
-                    } else {
-                        const { data } = await _getDetail({ id: this.$route.query.id });
-                        this.detail = data;
-                    }
+                    const { data } = await _getRawDetail({ id: this.$route.query.id });
+                    this.detail = data;
+
                     this.loading = false;
                 } catch (error) {
                     this.loading = false;
                 }
+            }
+        },
+        async check(val) {
+            try {
+                let status = val ? 1 : 2;
+                const { code } = await _check({ status, id: this.$route.query.id });
+                if (code == 1) {
+                    this.$message.success('审核成功');
+                    // this.$router.replace('/drug/check');
+                } else {
+                    this.$message.danger('审核失败');
+                }
+            } catch (error) {
+                console.log(error);
             }
         }
     }
@@ -173,6 +188,7 @@ export default {
 <style lang="less" scoped>
 .detail {
     overflow: scroll;
+    position: relative;
     h2 {
         height: 20px;
         line-height: 20px;
@@ -245,6 +261,11 @@ export default {
         li {
             width: 33%;
         }
+    }
+    .check-btns {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
     }
 }
 </style>
