@@ -14,6 +14,11 @@ export default new Router({
             redirect: '/dashboard'
         },
         {
+            path: '/login',
+            component: () => import(/* webpackChunkName: "login" */ '@/views/common/Login.vue'),
+            meta: { title: '登录' }
+        },
+        {
             path: '/dashboard',
             component: () => import(/* webpackChunkName: "home" */ '@/views/dashboard/index.vue'),
             meta: { title: '系统首页' }
@@ -56,6 +61,53 @@ export default new Router({
             meta: { title: '我的提交' }
         },
         {
+            path: '/drug/my',
+            component: () => import(/* webpackChunkName: "drug" */ '@/views/drug/my.vue'),
+            meta: { title: '我的提交' }
+        },
+        // article
+        {
+            path: '/article/list',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/list.vue'),
+            meta: { title: '文章列表' }
+        },
+        {
+            path: '/article/add',
+
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/add.vue'),
+            meta: { title: '新增文章' }
+        },
+        {
+            path: '/article/update',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/update.vue'),
+            meta: { title: '修改文章' }
+        },
+        {
+            path: '/article/detail',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/detail.vue'),
+            meta: { title: '文章详情' }
+        },
+        {
+            path: '/article/check',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/check.vue'),
+            meta: { title: '文章审核' }
+        },
+        {
+            path: '/article/check-detail',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/check-detail.vue'),
+            meta: { title: '文章审核详情' }
+        },
+        {
+            path: '/article/my',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/my.vue'),
+            meta: { title: '我的提交' }
+        },
+        {
+            path: '/article/my',
+            component: () => import(/* webpackChunkName: "article" */ '@/views/article/my.vue'),
+            meta: { title: '我的提交' }
+        },
+        {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue'),
             meta: { title: '404', permission: true }
@@ -64,11 +116,6 @@ export default new Router({
             path: '/error',
             component: () => import(/* webpackChunkName: "403" */ '@/views/common/error.vue'),
             meta: { title: '403', permission: true }
-        },
-        {
-            path: '/login',
-            component: () => import(/* webpackChunkName: "login" */ '@/views/common/Login.vue'),
-            meta: { title: '登录' }
         },
 
         {

@@ -229,7 +229,11 @@ export default {
     // },
     methods: {
         getUserInfo() {
-            if (localStorage.getItem('userInfo')) this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (localStorage.getItem('userInfo')) {
+                this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            } else {
+                this.$router.replace('/login');
+            }
         },
         changeDate() {
             const now = new Date().getTime();

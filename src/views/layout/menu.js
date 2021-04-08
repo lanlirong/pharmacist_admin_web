@@ -26,6 +26,29 @@ const menu = [
                 title: '我的提交'
             }
         ]
+    },
+    {
+        icon: 'el-icon-lx-cascades',
+        index: 'article',
+        title: '文章管理',
+        subs: [
+            {
+                index: '/article/list',
+                title: '文章列表'
+            },
+            {
+                index: '/article/add',
+                title: '新增文章'
+            },
+            {
+                index: '/article/check',
+                title: '文章审核'
+            },
+            {
+                index: '/article/my',
+                title: '我的提交'
+            }
+        ]
     }
 ];
 
