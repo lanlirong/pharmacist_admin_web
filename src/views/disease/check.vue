@@ -2,17 +2,20 @@
     <card class="drug">
         <!-- 搜索区域 -->
         <div class="search-container">
-            <el-button @click="$router.push('/article/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="文章标题:">
-                    <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
-                </el-form-item>
                 <el-form-item label="审核状态:">
                     <el-select v-model="searchParams.status" placeholder="请选择">
                         <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
                 </el-form-item>
-
+                <el-form-item>
+                    <el-select v-model="searchParams.type" placeholder="请选择">
+                        <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('searchForm')">查询</el-button>
                 </el-form-item>
@@ -29,18 +32,28 @@
                 style="width: 100%"
                 @sort-change="sortChange"
             >
-                <el-table-column prop="id" label="文章ID" width="80"> </el-table-column>
-                <el-table-column prop="title" label="标题" sortable="custom" show-overflow-tooltip> </el-table-column>
-                <el-table-column label="是否新文章" width="120">
+                <el-table-column prop="id" label="药品ID" width="80"> </el-table-column>
+                <el-table-column prop="drug_name" label="药品名称" width="100" sortable="custom" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="bar_code" label="药品条码" width="130"> </el-table-column>
+                <el-table-column prop="drug_brand" label="商品名" show-overflow-tooltip width="100">
+                    <template slot-scope="{ row }">{{ row.drug_brand | placeholder }}</template>
+                </el-table-column>
+                <el-table-column prop="approval_number" label="批准文号" width="140">
+                    <template slot-scope="{ row }">{{ row.approval_number | placeholder }}</template>
+                </el-table-column>
+                <el-table-column label="性质分类" width="100">
                     <template slot-scope="{ row }">
-                        <span v-if="row.isNew == 0" style="color: red;">是</span>
-                        <span v-else>否</span>
+                        <el-tag :type="nature_tag_color(row.nature_class)">{{ row.nature_class }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"> </el-table-column>
-                <el-table-column prop="creator" label="创建人" show-overflow-tooltip width="100"> </el-table-column>
+                <el-table-column label="是否新添加药品" width="120">
+                    <template slot-scope="{ row }">
+                        <span v-if="row.isNew == 1">是</span>
+                        <span v-if="row.isNew == 0">否</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" sortable="custom" width="150"> </el-table-column>
-
+                <el-table-column prop="operator" label="更新人" show-overflow-tooltip width="100"> </el-table-column>
                 <el-table-column label="审核状态" width="120">
                     <template slot-scope="{ row }">
                         <el-tag v-if="row.status == 0" type="warning">未审核</el-tag>
@@ -48,17 +61,18 @@
                         <el-tag v-if="row.status == 2" type="danger">审核未通过</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="reviewer" label="审核人" show-overflow-tooltip width="100"> </el-table-column>
+                <el-table-column prop="indication" label="适应症" show-overflow-tooltip width="250">
+                    <template slot-scope="{ row }">{{ row.indication | placeholder }}</template>
+                </el-table-column>
+                <el-table-column prop="constituents" label="主要成分" show-overflow-tooltip width="250">
+                    <template slot-scope="{ row }">{{ row.constituents | placeholder }}</template>
+                </el-table-column>
 
-                <el-table-column label="操作" width="140" fixed="right">
+                <el-table-column label="操作" width="100" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/article/detail?id=${row.id}&raw=1`" target="_blank">
-                            <el-button type="text" size="mini">预览</el-button></router-link
+                        <router-link v-if="row.status == 0" :to="`/drug/check-detail?id=${row.id}`" target="_blank">
+                            <el-button type="text" size="mini">审核</el-button></router-link
                         >
-                        <router-link :to="`/article/update?id=${row.id}&raw=1`" target="_blank">
-                            <el-button v-if="row.status == 0" type="text" size="mini">修改</el-button></router-link
-                        >
-                        <el-button type="text" v-if="row.status == 0" size="mini" @click="deleteRaw(row.id)">撤回</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -76,14 +90,14 @@
 </template>
 
 <script>
-import { STATUS } from '@/utils/constant/article';
-import { _getMyRawList, _deleteRaw } from '@/services/api/article';
+import { SELECT_TYPE, DRUG_NATURE_CLASS, STATUS } from '@/utils/constant/drug';
+import { _getRawList } from '@/services/api/drug';
 export default {
-    name: 'drugMy',
+    name: 'drugCheck',
     data() {
         return {
             searchParams: {
-                type: 'title',
+                type: 'drug_name',
                 searchKey: '',
                 orderType: '',
                 order: 'asc',
@@ -91,6 +105,7 @@ export default {
                 size: 20,
                 status: ''
             },
+            typeOptions: SELECT_TYPE,
             statusOptions: STATUS,
             tableData: [],
             rules: {
@@ -101,7 +116,19 @@ export default {
             loading: false
         };
     },
-    computed: {},
+    computed: {
+        nature_tag_color() {
+            return function(params) {
+                let color = '';
+                DRUG_NATURE_CLASS.filter(item => {
+                    if (item.value === params) {
+                        color = item.color;
+                    }
+                });
+                return color;
+            };
+        }
+    },
     created() {
         this.getList();
     },
@@ -120,7 +147,7 @@ export default {
             this.searchParams.size = 20;
             this.loading = true;
             try {
-                const { data } = await _getMyRawList({ ...this.searchParams });
+                const { data } = await _getRawList({ ...this.searchParams });
                 this.tableData = data.data;
                 this.total = data.total;
                 this.loading = false;
@@ -132,30 +159,6 @@ export default {
             this.searchParams.orderType = val.prop;
             this.searchParams.order = val.order === 'ascending' ? 'asc' : 'desc';
             this.getList();
-        },
-        deleteRaw(id) {
-            this.$confirm('确认撤回该记录?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            })
-                .then(async () => {
-                    try {
-                        const { code } = await _deleteRaw({ id });
-                        if (code == 1) {
-                            this.$message.success('已撤回');
-                            this.getList();
-                        }
-                    } catch (error) {
-                        console.log(error);
-                    }
-                })
-                .catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消撤回'
-                    });
-                });
         }
     }
 };

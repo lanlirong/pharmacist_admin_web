@@ -3,7 +3,7 @@
         <h1>{{ detail.title }}</h1>
         <div class="content-container" v-html="detail.content"></div>
         <!-- 审核按钮 -->
-        <div class="check-btns">
+        <div class="check-btns" v-if="$route.query.raw == 1">
             <el-button :disabled="isCheck" type="danger" @click="check(false)">不通过</el-button>
             <el-button :disabled="isCheck" type="success" @click="check(true)">通过</el-button>
         </div>
