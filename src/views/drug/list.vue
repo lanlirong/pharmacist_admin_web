@@ -94,7 +94,7 @@ export default {
             typeOptions: SELECT_TYPE,
             tableData: [],
             rules: {
-                searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
+                // searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
             },
             currentPage: 1,
             total: 0,
@@ -114,7 +114,9 @@ export default {
             };
         }
     },
-    created() {},
+    created() {
+        this.getList();
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate(valid => {

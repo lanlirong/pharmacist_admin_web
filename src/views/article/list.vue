@@ -4,15 +4,14 @@
         <div class="search-container">
             <el-button @click="$router.push('/article/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="文章标题:">
-                    <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
-                </el-form-item>
                 <el-form-item>
-                    <el-select v-model="searchParams.status" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                    <el-select v-model="searchParams.type" placeholder="请选择">
+                        <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                     </el-select>
                 </el-form-item>
-
+                <el-form-item prop="searchKey">
+                    <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('searchForm')">查询</el-button>
                 </el-form-item>
@@ -62,7 +61,7 @@
 </template>
 
 <script>
-import { STATUS } from '@/utils/constant/article';
+import { SELECT_TYPE } from '@/utils/constant/article';
 import { _getList, _deleteOne } from '@/services/api/article';
 export default {
     name: 'drugMy',
@@ -74,10 +73,9 @@ export default {
                 orderType: '',
                 order: 'asc',
                 page: 1,
-                size: 20,
-                status: ''
+                size: 20
             },
-            statusOptions: STATUS,
+            typeOptions: SELECT_TYPE,
             tableData: [],
             rules: {
                 // searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]

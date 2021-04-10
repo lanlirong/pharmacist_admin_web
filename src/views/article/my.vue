@@ -48,7 +48,11 @@
                         <el-tag v-if="row.status == 2" type="danger">审核未通过</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="reviewer" label="审核人" show-overflow-tooltip width="100"> </el-table-column>
+                <el-table-column prop="reviewer" label="审核人" show-overflow-tooltip width="100">
+                    <template slot-scope="{ row }">
+                        {{ row.reviewer | placeholder }}
+                    </template>
+                </el-table-column>
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">

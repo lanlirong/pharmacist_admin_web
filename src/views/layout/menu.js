@@ -29,6 +29,29 @@ const menu = [
     },
     {
         icon: 'el-icon-lx-cascades',
+        index: 'disease',
+        title: '疾病管理',
+        subs: [
+            {
+                index: '/disease/list',
+                title: '疾病列表'
+            },
+            {
+                index: '/disease/add',
+                title: '新增疾病'
+            },
+            {
+                index: '/disease/check',
+                title: '疾病审核'
+            },
+            {
+                index: '/disease/my',
+                title: '我的提交'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-cascades',
         index: 'article',
         title: '文章管理',
         subs: [

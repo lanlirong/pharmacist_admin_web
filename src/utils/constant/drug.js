@@ -18,6 +18,14 @@ export const SELECT_TYPE = [
     {
         value: 'approval_number',
         label: '批准文号'
+    },
+    {
+        value: 'creator',
+        label: '创建人'
+    },
+    {
+        value: 'reviewer',
+        label: '审核人'
     }
 ];
 export const DRUG_NATURE_CLASS = [
