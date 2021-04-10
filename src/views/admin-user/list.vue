@@ -1,8 +1,8 @@
 <template>
-    <card class="consult">
+    <card class="admin-user">
         <!-- 搜索区域 -->
         <div class="search-container">
-            <el-button @click="$router.push('/consult/add')">新增</el-button>
+            <el-button @click="$router.push('/admin-user/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item>
                     <el-select v-model="searchParams.type" placeholder="请选择">
@@ -11,11 +11,6 @@
                 </el-form-item>
                 <el-form-item prop="searchKey">
                     <el-input v-model.trim="searchParams.searchKey" clearable></el-input>
-                </el-form-item>
-                <el-form-item label="审核状态:">
-                    <el-select v-model="searchParams.status" placeholder="请选择">
-                        <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                    </el-select>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('searchForm')">查询</el-button>
@@ -33,37 +28,23 @@
                 style="width: 100%"
                 @sort-change="sortChange"
             >
-                <el-table-column prop="id" label="问题ID" width="100"> </el-table-column>
-                <el-table-column prop="Q_content" label="问题内容" sortable="custom" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="id" label="用户ID" width="60"> </el-table-column>
+                <el-table-column prop="name" label="名字" sortable="custom" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="username" label="账号" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="email" label="邮箱" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="sex" label="性别" width="50" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="phone" label="电话" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="role" label="角色" width="100" show-overflow-tooltip> </el-table-column>
 
-                <el-table-column label="是否新数据" width="80">
-                    <template slot-scope="{ row }">
-                        <span v-if="row.isNew == 0" style="color: red;">是</span>
-                        <span v-else>否</span>
-                    </template>
-                </el-table-column>
                 <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"> </el-table-column>
                 <el-table-column prop="creator" label="创建人" show-overflow-tooltip width="100"> </el-table-column>
-                <el-table-column prop="updateTime" label="更新时间" sortable="custom" width="150"> </el-table-column>
 
-                <el-table-column label="审核状态" width="120">
-                    <template slot-scope="{ row }">
-                        <el-tag v-if="row.status == 0" type="warning">未审核</el-tag>
-                        <el-tag v-if="row.status == 1" type="success">审核通过</el-tag>
-                        <el-tag v-if="row.status == 2" type="danger">审核未通过</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="reviewer" label="审核人" show-overflow-tooltip width="100">
-                    <template slot-scope="{ row }">
-                        {{ row.reviewer | placeholder }}
-                    </template>
-                </el-table-column>
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/consult/detail?id=${row.id}&raw=1`" target="_blank">
+                        <router-link :to="`/admin-user/detail?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">预览</el-button></router-link
                         >
-                        <router-link :to="`/consult/update?id=${row.id}&raw=1`" target="_blank">
+                        <router-link :to="`/admin-user/update?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">修改</el-button></router-link
                         >
                         <el-button type="text" size="mini" @click="deleteRaw(row.id)">删除</el-button>
@@ -84,23 +65,21 @@
 </template>
 
 <script>
-import { SELECT_TYPE, STATUS } from '@/utils/constant/consult';
-import { _getMyRawList, _deleteRaw } from '@/services/api/consult';
+import { SELECT_TYPE } from '@/utils/constant/admin-user';
+import { _getList, _deleteOne } from '@/services/api/admin-user';
 export default {
-    name: 'consultList',
+    name: 'adminUserList',
     data() {
         return {
             searchParams: {
-                type: 'id',
+                type: 'name',
                 searchKey: '',
                 orderType: '',
                 order: 'asc',
                 page: 1,
-                size: 20,
-                status: ''
+                size: 20
             },
             typeOptions: SELECT_TYPE,
-            statusOptions: STATUS,
             tableData: [],
             rules: {
                 // searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
@@ -129,7 +108,7 @@ export default {
             this.searchParams.size = 20;
             this.loading = true;
             try {
-                const { data } = await _getMyRawList({ ...this.searchParams });
+                const { data } = await _getList({ ...this.searchParams });
                 this.tableData = data.data;
                 this.total = data.total;
                 this.loading = false;
@@ -150,7 +129,7 @@ export default {
             })
                 .then(async () => {
                     try {
-                        const { code } = await _deleteRaw({ id });
+                        const { code } = await _deleteOne({ id });
                         if (code == 1) {
                             this.$message.success('已删除');
                             this.getList();
@@ -171,7 +150,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.consult {
+.admin-user {
     height: 100%;
     display: flex;
     flex-direction: column;

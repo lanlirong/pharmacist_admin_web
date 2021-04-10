@@ -28,7 +28,7 @@ const menu = [
         ]
     },
     {
-        icon: 'el-icon-lx-cascades',
+        icon: 'el-icon-lx-link',
         index: 'interaction',
         title: '相互作用管理',
         subs: [
@@ -51,7 +51,7 @@ const menu = [
         ]
     },
     {
-        icon: 'el-icon-lx-cascades',
+        icon: 'el-icon-lx-news',
         index: 'disease',
         title: '疾病管理',
         subs: [
@@ -74,7 +74,7 @@ const menu = [
         ]
     },
     {
-        icon: 'el-icon-lx-cascades',
+        icon: 'el-icon-lx-emoji',
         index: 'consult',
         title: '用药咨询管理',
         subs: [
@@ -97,7 +97,7 @@ const menu = [
         ]
     },
     {
-        icon: 'el-icon-lx-cascades',
+        icon: 'el-icon-lx-text',
         index: 'article',
         title: '文章管理',
         subs: [
@@ -120,20 +120,20 @@ const menu = [
         ]
     },
     {
-        icon: 'el-icon-lx-cascades',
-        index: 'system_user',
+        icon: 'el-icon-lx-service',
+        index: 'admin-user',
         title: '系统用户管理',
         subs: [
             {
-                index: '/system_user/list',
+                index: '/admin-user/list',
                 title: '系统用户列表'
             },
             {
-                index: '/system_user/add',
+                index: '/admin-user/add',
                 title: '新增系统用户'
             },
             {
-                index: '/system_user/check',
+                index: '/admin-user/check',
                 title: '用户权限管理'
             }
         ]

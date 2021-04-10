@@ -30,7 +30,7 @@
             >
                 <el-table-column prop="id" label="问题ID" width="100"> </el-table-column>
                 <el-table-column prop="Q_content" label="问题内容" sortable="custom" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="K_type" label="问题类型" sortable="custom" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="K_type" label="问题类型" sortable="custom" width="150" show-overflow-tooltip> </el-table-column>
 
                 <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"> </el-table-column>
                 <el-table-column prop="creator" label="创建人" show-overflow-tooltip width="100"> </el-table-column>

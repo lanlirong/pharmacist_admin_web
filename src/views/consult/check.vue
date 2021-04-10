@@ -34,7 +34,7 @@
                 @sort-change="sortChange"
             >
                 <el-table-column prop="id" label="问题ID" width="100"> </el-table-column>
-                <el-table-column prop="Q_content" label="问题内容" sortable="custom" width="120" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="Q_content" label="问题内容" sortable="custom" show-overflow-tooltip> </el-table-column>
 
                 <el-table-column label="是否新数据" width="80">
                     <template slot-scope="{ row }">
