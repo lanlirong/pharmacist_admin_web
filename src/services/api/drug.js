@@ -6,7 +6,7 @@ export const _getList = (params = {}) => {
 export const _getDetail = (params = {}) => {
     return axios.get('/admin/drug/one', { params });
 };
-export const _getDrugCount = () => {
+export const _getCount = () => {
     return axios.get('/admin/drug/count');
 };
 export const _addRawDrug = (params = {}) => {

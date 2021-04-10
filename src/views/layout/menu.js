@@ -29,6 +29,29 @@ const menu = [
     },
     {
         icon: 'el-icon-lx-cascades',
+        index: 'interaction',
+        title: '相互作用管理',
+        subs: [
+            {
+                index: '/interaction/list',
+                title: '相互作用列表'
+            },
+            {
+                index: '/interaction/add',
+                title: '新增相互作用'
+            },
+            {
+                index: '/interaction/check',
+                title: '相互作用审核'
+            },
+            {
+                index: '/interaction/my',
+                title: '我的提交'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-cascades',
         index: 'disease',
         title: '疾病管理',
         subs: [

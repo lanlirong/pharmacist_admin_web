@@ -12,7 +12,7 @@ export const _deleteOne = (params = {}) => {
 export const _update = (params = {}) => {
     return axios.post('/admin/disease/update', { ...params });
 };
-export const _getDiseaseCount = () => {
+export const _getCount = () => {
     return axios.get('/admin/disease/count');
 };
 /* raw */

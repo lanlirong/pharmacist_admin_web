@@ -5,7 +5,7 @@ export const _getList = (params = {}) => {
 export const _getOne = (params = {}) => {
     return axios.get('/admin/consult/one', { params });
 };
-export const _getConsultCount = () => {
+export const _getCount = () => {
     return axios.get('/admin/consult/count');
 };
 

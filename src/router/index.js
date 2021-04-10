@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import disease from './disease';
 import drug from './drug';
 import article from './article';
+import interaction from './interaction';
 
 Vue.use(Router);
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
@@ -30,6 +31,7 @@ export default new Router({
         ...drug,
         ...disease,
         ...article,
+        ...interaction,
         {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue'),

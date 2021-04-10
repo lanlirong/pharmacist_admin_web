@@ -1,8 +1,8 @@
 <template>
-    <card class="disease">
+    <card class="interaction">
         <!-- 搜索区域 -->
         <div class="search-container">
-            <el-button @click="$router.push('/disease/add')">新增</el-button>
+            <el-button @click="$router.push('/interaction/add')">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item>
                     <el-select v-model="searchParams.type" placeholder="请选择">
@@ -28,9 +28,11 @@
                 style="width: 100%"
                 @sort-change="sortChange"
             >
-                <el-table-column prop="id" label="疾病ID" width="100"> </el-table-column>
-                <el-table-column prop="name" label="疾病名称" sortable="custom" width="200" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="introduction" label="疾病简介" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="id" label="作用ID" width="100"> </el-table-column>
+                <el-table-column prop="name" label="药物名称" sortable="custom" width="150" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="interaction" label="相互作用成分" width="150" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="result" label="相互作用结果" show-overflow-tooltip> </el-table-column>
+
                 <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"> </el-table-column>
                 <el-table-column prop="creator" label="创建人" show-overflow-tooltip width="100"> </el-table-column>
                 <el-table-column prop="updateTime" label="更新时间" sortable="custom" width="150"> </el-table-column>
@@ -38,10 +40,10 @@
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <router-link :to="`/disease/detail?id=${row.id}&raw=0`" target="_blank">
+                        <router-link :to="`/interaction/detail?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">预览</el-button></router-link
                         >
-                        <router-link :to="`/disease/update?id=${row.id}&raw=0`" target="_blank">
+                        <router-link :to="`/interaction/update?id=${row.id}&raw=0`" target="_blank">
                             <el-button type="text" size="mini">修改</el-button></router-link
                         >
                         <el-button type="text" size="mini" @click="deleteRaw(row.id)">删除</el-button>
@@ -62,10 +64,10 @@
 </template>
 
 <script>
-import { SELECT_TYPE } from '@/utils/constant/disease';
-import { _getList, _deleteOne } from '@/services/api/disease';
+import { SELECT_TYPE } from '@/utils/constant/interaction';
+import { _getList, _deleteOne } from '@/services/api/interaction';
 export default {
-    name: 'diseaseList',
+    name: 'interactionList',
     data() {
         return {
             searchParams: {
@@ -147,7 +149,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.disease {
+.interaction {
     height: 100%;
     display: flex;
     flex-direction: column;

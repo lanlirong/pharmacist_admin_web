@@ -12,7 +12,7 @@ export const _deleteOne = (params = {}) => {
 export const _update = (params = {}) => {
     return axios.post('/admin/article/update', { ...params });
 };
-export const _getArticleCount = () => {
+export const _getCount = () => {
     return axios.get('/admin/article/count');
 };
 /* raw */
