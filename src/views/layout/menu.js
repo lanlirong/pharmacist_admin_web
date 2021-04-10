@@ -75,6 +75,29 @@ const menu = [
     },
     {
         icon: 'el-icon-lx-cascades',
+        index: 'consult',
+        title: '用药咨询管理',
+        subs: [
+            {
+                index: '/consult/list',
+                title: '用药咨询列表'
+            },
+            {
+                index: '/consult/add',
+                title: '新增用药咨询'
+            },
+            {
+                index: '/consult/check',
+                title: '用药咨询审核'
+            },
+            {
+                index: '/consult/my',
+                title: '我的提交'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-cascades',
         index: 'article',
         title: '文章管理',
         subs: [
@@ -93,6 +116,25 @@ const menu = [
             {
                 index: '/article/my',
                 title: '我的提交'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-cascades',
+        index: 'system_user',
+        title: '系统用户管理',
+        subs: [
+            {
+                index: '/system_user/list',
+                title: '系统用户列表'
+            },
+            {
+                index: '/system_user/add',
+                title: '新增系统用户'
+            },
+            {
+                index: '/system_user/check',
+                title: '用户权限管理'
             }
         ]
     }
