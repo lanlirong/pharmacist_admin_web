@@ -1,9 +1,9 @@
 <template>
     <card class="detail" v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
-        <h1>{{ detail.title }}</h1>
+        <!-- <h1>{{ detail.title }}</h1> -->
         <div class="content-container" v-html="detail.content"></div>
         <!-- 审核按钮 -->
-        <div class="check-btns" v-if="$route.query.raw == 1">
+        <div class="check-btns" v-if="$route.query.raw != 1 && $route.query.raw != 0">
             <el-button :disabled="isCheck" type="danger" @click="check(false)">不通过</el-button>
             <el-button :disabled="isCheck" type="success" @click="check(true)">通过</el-button>
         </div>
@@ -34,6 +34,7 @@ export default {
                     } else {
                         const { data } = await _getDetail({ id: this.$route.query.id });
                         this.detail = data;
+                        console.log(data);
                     }
 
                     this.loading = false;
@@ -64,11 +65,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .detail {
     overflow: scroll;
     position: relative;
-    h2 {
+    h1 {
         height: 20px;
         line-height: 20px;
         font-size: 16px;
@@ -76,71 +77,54 @@ export default {
         padding-left: 10px;
         margin-bottom: 10px;
     }
-    ul {
-        padding-left: 14px;
-        margin-bottom: 20px;
-        li {
-            font-size: 14px;
-            display: inline-block;
-            // height: 35px;
-            line-height: 35px;
-            .label {
-                color: rgba(0, 0, 0, 0.85);
-                font-weight: 400;
-                padding-right: 5px;
-            }
-            .value {
-                color: rgba(0, 0, 0, 0.65);
-            }
+
+    .content-container {
+        overflow: scroll;
+        height: 100%;
+        blockquote {
+            border-left: 4px solid #ccc;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            padding-left: 16px;
         }
-    }
-    .basic-container {
-        display: flex;
-        ul {
-            flex: 1;
+        ol {
+            padding-left: 1.5em;
             li {
-                width: 33%;
+                counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+                counter-increment: list-0;
+            }
+            li:not(.ql-direction-rtl)::before {
+                margin-left: -1.5em;
+                margin-right: 0.3em;
+                text-align: right;
+            }
+            li:before {
+                content: counter(list-0, decimal) '. ';
+                display: inline-block;
+                white-space: nowrap;
+                width: 1.2em;
             }
         }
-        .picture {
-            width: 200px;
-            border: @border;
-            padding: 10px;
-            img {
-                width: 100%;
-                height: 100%;
-                text-align: center;
+        ul {
+            padding-left: 1.5em;
+            li:not(.ql-direction-rtl)::before {
+                content: '\2022';
+                margin-left: -1.5em;
+                margin-right: 0.3em;
+                text-align: right;
+                display: inline-block;
+                white-space: nowrap;
+                width: 1.2em;
+            }
+            li:not(.ql-direction-rtl) {
+                padding-left: 1.5em;
             }
         }
-    }
-    .main-disease {
-        height: 30px;
-        margin-bottom: 20px;
-        .el-link {
-            margin: 0 10px;
+        .ql-indent-1 {
+            padding-left: 3em;
         }
     }
-    .treat-info,
-    .manufacturer-info {
-        li {
-            width: 100%;
-            line-height: 24px;
-            margin-bottom: 10px;
-            .label {
-                width: 100px;
-                float: left;
-            }
-            .value {
-                display: block;
-                margin-left: 100px;
-            }
-        }
-    }
-    .systerm-info {
-        li {
-            width: 33%;
-        }
-    }
+
     .check-btns {
         position: fixed;
         bottom: 20px;

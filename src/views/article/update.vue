@@ -4,6 +4,9 @@
             <el-form-item label="文章标题：" prop="title">
                 <el-input v-model="ruleForm.title"></el-input>
             </el-form-item>
+            <el-form-item label="文章简介：" prop="description">
+                <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 50 }" v-model="ruleForm.description"></el-input>
+            </el-form-item>
         </el-form>
         <!-- 图片 -->
         <el-upload
@@ -79,10 +82,15 @@ export default {
             ruleForm: {
                 title: '',
                 content: '',
+                description: '',
                 imgUrls: []
             },
             rules: {
-                title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }]
+                title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
+                description: [
+                    { required: true, message: '请输入文章简介', trigger: 'blur' },
+                    { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' }
+                ]
             },
             loading: false,
             isSubmiting: false,
