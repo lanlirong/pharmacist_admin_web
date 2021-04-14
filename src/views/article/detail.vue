@@ -1,6 +1,6 @@
 <template>
     <card class="detail" v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
-        <!-- <h1>{{ detail.title }}</h1> -->
+        <h1>{{ detail.title }}</h1>
         <div class="content-container" v-html="detail.content"></div>
         <!-- 审核按钮 -->
         <div class="check-btns" v-if="$route.query.raw != 1 && $route.query.raw != 0">
@@ -70,14 +70,14 @@ export default {
     overflow: scroll;
     position: relative;
     h1 {
-        height: 20px;
-        line-height: 20px;
-        font-size: 16px;
-        border-left: 4px solid red;
-        padding-left: 10px;
-        margin-bottom: 10px;
+        width: 100%;
+        // margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 700;
+        color: @theme-color-1;
+        text-align: center;
+        position: relative;
     }
-
     .content-container {
         overflow: scroll;
         height: 100%;

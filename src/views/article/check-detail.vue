@@ -63,6 +63,15 @@ export default {
 .detail {
     overflow: scroll;
     position: relative;
+    h1 {
+        width: 100%;
+        // margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 700;
+        color: @theme-color-1;
+        text-align: center;
+        position: relative;
+    }
     .content-container {
         overflow: scroll;
         height: 100%;
