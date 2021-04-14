@@ -81,6 +81,7 @@ export default {
     .content-container {
         overflow: scroll;
         height: 100%;
+        line-height: 1.5em;
         blockquote {
             border-left: 4px solid #ccc;
             margin-bottom: 5px;
@@ -122,6 +123,34 @@ export default {
         }
         .ql-indent-1 {
             padding-left: 3em;
+        }
+        .ql-indent-2 {
+            padding-left: 6em;
+        }
+        .ql-indent-3 {
+            padding-left: 9em;
+        }
+        .ql-indent-4 {
+            padding-left: 12em;
+        }
+        .ql-indent-5 {
+            padding-left: 15em;
+        }
+        h2 {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        h3 {
+            font-weight: 500;
+            font-size: 16px;
+        }
+        h4 {
+            font-weight: 400;
+            font-size: 14px;
+        }
+        img {
+            width: unset;
+            max-width: 100%;
         }
     }
 
