@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import Axios from '@/services/http-interceptors';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -57,7 +58,7 @@ export default {
     data() {
         return {
             // content: a,
-            serviceUrl: 'http://localhost:80/admin/article/uploadPicture',
+            serviceUrl: Axios.defaults.baseURL + 'admin/article/uploadPicture',
             editorOption: {
                 placeholder: '编辑文章内容',
                 modules: {
@@ -106,6 +107,7 @@ export default {
             quillUpdateImg: false
         };
     },
+    mounted() {},
     methods: {
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';

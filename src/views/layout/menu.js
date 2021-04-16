@@ -133,7 +133,7 @@ const menu = [
                 title: '新增系统用户'
             },
             {
-                index: '/admin-user/check',
+                index: '/admin-user/limit',
                 title: '用户权限管理'
             }
         ]

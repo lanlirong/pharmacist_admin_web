@@ -259,13 +259,15 @@
     </card>
 </template>
 <script>
+import Axios from '@/services/http-interceptors';
+
 import { _addRawDrug } from '@/services/api/drug';
 import { DRUG_NATURE_CLASS } from '@/utils/constant/drug';
 export default {
     name: 'drugAdd',
     data() {
         return {
-            uploadUrl: 'http://localhost:80/admin/drug/uploadDrugPicture',
+            uploadUrl: Axios.defaults.baseURL + 'admin/drug/uploadDrugPicture',
             formData: {
                 drug_name: 'test',
                 bar_code: '1234567890123',

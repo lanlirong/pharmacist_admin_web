@@ -6,7 +6,7 @@ import drug from './drug';
 import article from './article';
 import interaction from './interaction';
 import consult from './consult';
-import systemUser from './admin-user';
+import adminUser from './admin-user';
 
 Vue.use(Router);
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
@@ -35,7 +35,7 @@ export default new Router({
         ...article,
         ...interaction,
         ...consult,
-        ...systemUser,
+        ...adminUser,
         {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue'),

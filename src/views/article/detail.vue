@@ -34,7 +34,6 @@ export default {
                     } else {
                         const { data } = await _getDetail({ id: this.$route.query.id });
                         this.detail = data;
-                        console.log(data);
                     }
 
                     this.loading = false;

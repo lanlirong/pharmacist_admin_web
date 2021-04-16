@@ -12,7 +12,7 @@
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2019-11-01</span>
+                        <span>2021-04-16</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
@@ -21,11 +21,13 @@
                 </el-card>
                 <el-card shadow="hover" style="height:252px;">
                     <div slot="header" class="clearfix">
-                        <span>语言详情</span>
+                        <span>最新留言</span>
                     </div>
-                    Vue <el-progress :percentage="71.3" color="#42b983"></el-progress>JavaScript
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS <el-progress :percentage="13.7"></el-progress>HTML
-                    <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                    开发中。。。
+                    <!-- 药品 <el-progress :percentage="71.3" color="#42b983"></el-progress>药物相互作用
+                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>疾病
+                    <el-progress :percentage="13.7"></el-progress>用药咨询
+                    <el-progress :percentage="5.9" color="#f56c6c"></el-progress> -->
                 </el-card>
             </el-col>
             <el-col :span="16">
@@ -110,27 +112,27 @@ export default {
             name: localStorage.getItem('ms_username'),
             todoList: [
                 {
-                    title: '今天要修复100个bug',
+                    title: '开发中。。。',
                     status: false
                 },
                 {
-                    title: '今天要修复100个bug',
+                    title: '开发中。。。',
                     status: false
                 },
                 {
-                    title: '今天要写100行代码加几个bug吧',
+                    title: '开发中。。。',
                     status: false
                 },
                 {
-                    title: '今天要修复100个bug',
+                    title: '开发中。。。',
                     status: false
                 },
                 {
-                    title: '今天要修复100个bug',
+                    title: '开发中。。。',
                     status: true
                 },
                 {
-                    title: '今天要写100行代码加几个bug吧',
+                    title: '开发中。。。',
                     status: true
                 }
             ],
