@@ -1,74 +1,91 @@
 <template>
     <div class="admin-user-detail">
-        <el-avatar :src="data.avatar"></el-avatar>
-        <ul>
+        <el-avatar :src="detail.avatar"></el-avatar>
+        <ul v-loading="loading" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading">
             <li>
                 <div class="label">ID:</div>
-                <div class="value">{{ data.id }}</div>
+                <div class="value">{{ detail.id | placeholder }}</div>
             </li>
             <li>
                 <div class="label">名字:</div>
-                <div class="value">{{ data.name }}</div>
+                <div class="value">{{ detail.name | placeholder }}</div>
             </li>
             <li>
                 <div class="label">账号:</div>
-                <div class="value">{{ data.username }}</div>
+                <div class="value">{{ detail.username | placeholder }}</div>
             </li>
             <li>
                 <div class="label">密码:</div>
-                <div class="value">{{ data.password }}</div>
+                <div class="value">{{ detail.password | placeholder }}</div>
             </li>
             <li>
                 <div class="label">性别:</div>
-                <div class="value">{{ data.sex }}</div>
+                <div class="value">{{ detail.sex | placeholder }}</div>
             </li>
 
             <li>
                 <div class="label">邮箱:</div>
-                <div class="value">{{ data.mail }}</div>
+                <div class="value">{{ detail.mail | placeholder }}</div>
             </li>
             <li>
                 <div class="label">电话:</div>
-                <div class="value">{{ data.phone }}</div>
+                <div class="value">{{ detail.phone | placeholder }}</div>
             </li>
             <li>
                 <div class="label">创建时间:</div>
-                <div class="value">{{ data.createTime }}</div>
+                <div class="value">{{ detail.createTime | placeholder }}</div>
             </li>
             <li>
                 <div class="label">创建人:</div>
-                <div class="value">{{ data.creator }}</div>
+                <div class="value">{{ detail.creator | placeholder }}</div>
             </li>
             <li>
                 <div class="label">更新时间:</div>
-                <div class="value">{{ data.updateTime }}</div>
+                <div class="value">{{ detail.updateTime | placeholder }}</div>
             </li>
             <li>
                 <div class="label">角色:</div>
-                <div class="value">{{ data.role }}</div>
+                <div class="value">{{ detail.role | placeholder }}</div>
             </li>
             <li></li>
             <li>
                 <div class="label">权限:</div>
-                <div class="value">{{ data.limit }}</div>
             </li>
+            <div class="limit-container">
+                <el-tag type="danger" v-for="(item, index) in detail.limits" :key="index">{{ item }}</el-tag>
+            </div>
         </ul>
     </div>
 </template>
 
 <script>
+import { _getDetail } from '@/services/api/admin-user';
 export default {
     props: {
-        data: {
-            type: Object,
-            default: () => {}
+        id: {
+            type: Number,
+            default: 0
         }
     },
     data() {
-        return {};
+        return {
+            detail: {},
+            loading: false
+        };
     },
     created() {
-        console.log(this.data);
+        this.getDatail();
+    },
+    mounted() {},
+    methods: {
+        async getDatail() {
+            this.loading = true;
+            const { code, data } = await _getDetail({ id: this.id });
+            if (code == 1) {
+                this.detail = data;
+                this.loading = false;
+            }
+        }
     }
 };
 </script>
@@ -94,6 +111,13 @@ export default {
             .value {
                 text-align: left;
             }
+        }
+    }
+    .limit-container {
+        margin-left: 80px;
+        .el-tag {
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
     }
 }

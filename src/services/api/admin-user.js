@@ -15,6 +15,10 @@ export const _getDetail = (params = {}) => {
 export const _deleteOne = (params = {}) => {
     return axios.get('/admin/adminuser/deleteOne', { params });
 };
+export const _add = (params = {}) => {
+    return axios.post('/admin/adminuser/add', { ...params });
+};
+
 export const _update = (params = {}) => {
     return axios.post('/admin/adminuser/update', { ...params });
 };

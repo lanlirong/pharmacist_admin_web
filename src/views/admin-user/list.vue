@@ -42,7 +42,7 @@
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <el-button type="text" size="mini" @click="showDetail(row)">详情</el-button>
+                        <el-button type="text" size="mini" @click="showDetail(row.id)">详情</el-button>
 
                         <el-button type="text" size="mini" @click="deleteRaw(row.id)">删除</el-button>
                     </template>
@@ -63,14 +63,12 @@
             :title="dialog.title"
             :visible.sync="dialog.visible"
             width="60%"
-            destroy-on-close
+            :destroy-on-close="true"
             :close-on-press-escape="false"
             :close-on-click-modal="false"
+            @close="closeDialog"
         >
-            <component :is="dialog.type" :data="dialog.data" />
-            <span v-if="dialog.type == 'add'" slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="addUser">确认新增</el-button>
-            </span>
+            <component :is="dialog.type" :id="dialog.data" @close="closeDialog" />
         </el-dialog>
     </card>
 </template>
@@ -171,14 +169,18 @@ export default {
             this.dialog.type = 'add';
             this.dialog.data = null;
         },
-        showDetail(row) {
+        showDetail(id) {
             this.dialog.title = '预览';
             this.dialog.visible = true;
             this.dialog.type = 'detail';
-            this.dialog.data = row;
+            this.dialog.data = id;
         },
-        addUser() {
+
+        closeDialog() {
             this.dialog.visible = false;
+            this.dialog.data = null;
+            this.dialog.title = '';
+            this.dialog.type = '';
         }
     }
 };
