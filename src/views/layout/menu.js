@@ -122,19 +122,46 @@ const menu = [
     {
         icon: 'el-icon-lx-service',
         index: 'admin-user',
-        title: '系统用户管理',
+        title: '后台用户管理',
         subs: [
             {
                 index: '/admin-user/list',
-                title: '系统用户列表'
+                title: '后台用户列表'
             },
-            {
-                index: '/admin-user/add',
-                title: '新增系统用户'
-            },
+
             {
                 index: '/admin-user/limit',
-                title: '用户权限管理'
+                title: '后台用户权限管理'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-people',
+        index: 'index-user',
+        title: '前台用户管理',
+        subs: [
+            {
+                index: '/index-user/list',
+                title: '前台用户列表'
+            },
+            {
+                index: '/index-user/message',
+                title: '前台用户留言'
+            }
+        ]
+    },
+    {
+        icon: 'el-icon-lx-group',
+        index: 'community',
+        title: '社区管理',
+        subs: [
+            {
+                index: '/community/postlist',
+                title: '帖子列表'
+            },
+            {
+                index: '/community/commentlist',
+                title: '评论列表'
             }
         ]
     }

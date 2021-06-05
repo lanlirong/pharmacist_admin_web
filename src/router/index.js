@@ -7,6 +7,7 @@ import article from './article';
 import interaction from './interaction';
 import consult from './consult';
 import adminUser from './admin-user';
+import community from './community';
 
 Vue.use(Router);
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
@@ -36,6 +37,7 @@ export default new Router({
         ...interaction,
         ...consult,
         ...adminUser,
+        ...community,
         {
             path: '/404',
             component: () => import(/* webpackChunkName: "404" */ '@/views/common/404.vue'),

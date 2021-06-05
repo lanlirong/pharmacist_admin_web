@@ -2,7 +2,6 @@
     <card class="admin-user">
         <!-- 搜索区域 -->
         <div class="search-container">
-            <el-button @click="showUserDia">新增</el-button>
             <el-form :model="searchParams" :rules="rules" inline ref="searchForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item>
                     <el-select v-model="searchParams.type" placeholder="请选择">
@@ -28,22 +27,19 @@
                 style="width: 100%"
                 @sort-change="sortChange"
             >
-                <el-table-column prop="id" label="用户ID" width="60"> </el-table-column>
-                <el-table-column prop="name" label="名字" sortable="custom" width="100" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="username" label="账号" sortable="custom" width="100" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="email" label="邮箱" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="sex" label="性别" width="50" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="phone" label="电话" width="100" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="role" label="角色" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="id" label="评论ID" width="60"> </el-table-column>
+                <el-table-column prop="postId" label="帖子ID" width="60"> </el-table-column>
+                <el-table-column prop="username" label="评论人" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="userId" label="评论人ID" width="100" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="content" label="评论内容" show-overflow-tooltip> </el-table-column>
 
-                <el-table-column prop="createTime" label="创建时间" sortable="custom" width="150"> </el-table-column>
-                <el-table-column prop="updateTime" label="更新时间" sortable="custom" width="150"> </el-table-column>
-                <el-table-column prop="creator" label="创建人" show-overflow-tooltip width="100"> </el-table-column>
+                <el-table-column prop="createTime" label="发布时间" sortable="custom" width="150"> </el-table-column>
 
                 <el-table-column label="操作" width="140" fixed="right">
                     <template slot-scope="{ row }">
-                        <el-button type="text" size="mini" @click="showDetail(row)">详情</el-button>
-
+                        <!-- <router-link :to="`/admin-user/detail?id=${row.id}&raw=0`" target="_blank">
+                            <el-button type="text" size="mini">预览</el-button></router-link
+                        > -->
                         <el-button type="text" size="mini" @click="deleteRaw(row.id)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -58,55 +54,32 @@
             :total="total"
         >
         </el-pagination>
-        <!-- 信息弹框 -->
-        <el-dialog
-            :title="dialog.title"
-            :visible.sync="dialog.visible"
-            width="60%"
-            destroy-on-close
-            :close-on-press-escape="false"
-            :close-on-click-modal="false"
-        >
-            <component :is="dialog.type" :data="dialog.data" />
-            <span v-if="dialog.type == 'add'" slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="addUser">确认新增</el-button>
-            </span>
-        </el-dialog>
     </card>
 </template>
 
 <script>
-import { SELECT_TYPE } from '@/utils/constant/admin-user';
-import { _getList, _deleteOne } from '@/services/api/admin-user';
-import detail from './components/detail';
-import add from './components/add';
-
+import { COMMENT_SELECT_TYPE } from '@/utils/constant/community';
+import { _getCommentList, _deleteCommentOne } from '@/services/api/community';
 export default {
     name: 'adminUserList',
-    components: { detail, add },
     data() {
         return {
             searchParams: {
-                type: 'name',
+                type: 'id',
                 searchKey: '',
                 orderType: '',
                 order: 'asc',
                 page: 1,
                 size: 20
             },
-            typeOptions: SELECT_TYPE,
+            typeOptions: COMMENT_SELECT_TYPE,
             tableData: [],
             rules: {
                 // searchKey: [{ required: true, message: '请输入查询值', trigger: 'blur' }]
             },
             currentPage: 1,
             total: 0,
-            loading: false,
-            dialog: {
-                visible: false,
-                title: '',
-                type: ''
-            }
+            loading: false
         };
     },
     computed: {},
@@ -128,7 +101,7 @@ export default {
             this.searchParams.size = 20;
             this.loading = true;
             try {
-                const { data } = await _getList({ ...this.searchParams });
+                const { data } = await _getCommentList({ ...this.searchParams });
                 this.tableData = data.data;
                 this.total = data.total;
                 this.loading = false;
@@ -149,7 +122,7 @@ export default {
             })
                 .then(async () => {
                     try {
-                        const { code } = await _deleteOne({ id });
+                        const { code } = await _deleteCommentOne({ id });
                         if (code == 1) {
                             this.$message.success('已删除');
                             this.getList();
@@ -164,21 +137,6 @@ export default {
                         message: '已取消删除'
                     });
                 });
-        },
-        showUserDia() {
-            this.dialog.title = '新增';
-            this.dialog.visible = true;
-            this.dialog.type = 'add';
-            this.dialog.data = null;
-        },
-        showDetail(row) {
-            this.dialog.title = '预览';
-            this.dialog.visible = true;
-            this.dialog.type = 'detail';
-            this.dialog.data = row;
-        },
-        addUser() {
-            this.dialog.visible = false;
         }
     }
 };

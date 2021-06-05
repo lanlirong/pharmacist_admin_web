@@ -5,7 +5,7 @@ export const SELECT_TYPE = [
     },
     {
         value: 'username',
-        label: '系统名字'
+        label: '账号'
     },
     {
         value: 'email',

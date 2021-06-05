@@ -24,8 +24,8 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
-                <div class="user-avator">
-                    <img :src="userInfo.avator" />
+                <div class="user-avatar">
+                    <img :src="userInfo.avatar" />
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" @command="handleCommand">
@@ -205,10 +205,10 @@ export default {
 .user-name {
     margin-left: 10px;
 }
-.user-avator {
+.user-avatar {
     margin-left: 20px;
 }
-.user-avator img {
+.user-avatar img {
     display: block;
     width: 40px;
     height: 40px;
